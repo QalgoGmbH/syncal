@@ -1,0 +1,12 @@
+/**
+* Main configuration file for Syncal
+*/
+
+{
+  "Syncal": {
+    "listen": {
+       "port": "8083",
+	   "forever": "false"
+    }
+  }	
+}
