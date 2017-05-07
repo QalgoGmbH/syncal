@@ -7,7 +7,7 @@
 * Copyright:	Copyright 2017 by Qalgo GmbH (www.qalgo.de). All rights reserved.
 *               This code can be distributed, copied or changed only with the permission of Qalgo GmbH.
 *
-*/
+*/ 
 
 var config = require( 'config');
 var express = require( 'express');
