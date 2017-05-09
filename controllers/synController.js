@@ -12,29 +12,29 @@ var _config = require( 'config');
 
 
 /**
-*   init() - initializes the communication with the Interface System
+*   login() - initializes the communication with the Interface System
 *   @param itf - interface name
 *   @param usr - user name
 *   @param pwd - password
 *   @return - succes or error
 */
-init = function( itf, usr, pwd) {
+login = function( itf, usr, pwd, res) {
 	
-	console.log( '--> synController.init: ' + itf);
+	console.log( '--> synController.login: ' + itf);
 	
 	self = this;
 	self.m_itf = itf;
 	
 	// Domino interface
 	if( self.m_itf == 'dom') { 
-		var domCtrl = require( './controllers/domController');
-		
-		domCtrl.init( usr, pwd);
+		//var domCtrl = require( './controllers/domController');
+		var domCtrl = require( './domController');
+		domCtrl.login( usr, pwd, res);
 	} else if( self.m_itf == 'ews') {
 		// ... code for Microsoft EWS
 	}		
 	
-	console.log( '<-- synController.init');
+	console.log( '<-- synController.login');
 }
 
 
@@ -50,6 +50,7 @@ createAppointment = function( tsStart, tsEnd, sSummary, sLocation) {
 	// Domino interface
 	if( self.m_itf == 'dom') { 
 		var domCtrl = require( './controllers/domController');
+		domController.login();
 		
 		// convert timestamp dates into iso-dates required by domino
 		var dtStart = new Date( tsStart);
@@ -77,38 +78,14 @@ createMeeting = function( dtStart, dtEnd, sSummary, sLocation, arrAttendees) {
 	console.log( '<-- synController.createMeeting');
 }
 
-/*
-cloneFolder = function( tpl, tgt, res) {
 
-	console.log( '--> cloneFolder: ' + tpl + ' -> ' + tgt);
-
-	var oRet = {};
-	oRet.err = '0';
-	oRet.txt = '';
-	
-	_ncp( tpl, tgt, function( err) {
-		if( err) {
-			oRet.err = 1;
-			oRet.txt = err;
-			console.error( err);			
-			res.send( JSON.stringify( oRet));
-			
-		} else {
-			console.log( "Done.");
-			res.send( JSON.stringify( oRet));
-		}
-		
-		console.log( '<-- cloneFolder');
-	});			
-}
-*/
 
 /**
 *  Module interface
 */
 module.exports = {
-	init: init,
+	login: login,
 	createAppointment: createAppointment,
-	createMeeting: createMeeting,
-    cloneFolder: cloneFolder
+	createMeeting: createMeeting
+    
 }

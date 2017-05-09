@@ -9,47 +9,91 @@
 */
 
 var _config = require( 'config');
-var _ncp = require( 'ncp').ncp;
-_ncp.limit = 16;
-
+const request = require("request"); 
+var http = require('http');
 
 /**
-*   init() - initiazes the communication with the Domino System
+*   login() - initiazes the communication with the Domino System
 */
-init = function() {
-	console.log( '--> domController.init');
+login = function(usr, pwd, res) {
+	console.log( '--> domController.login'); 
 	
-	console.log( '<-- domController.init');
-}
+var auth = "Basic " + new Buffer(usr + ":" + pwd).toString("base64");
+var url = "http://dev.qalgo.de/mail/bchiruma.nsf/api/calendar/events?format=json";
 
-cloneFolder = function( tpl, tgt, res) {
-
-	console.log( '--> cloneFolder: ' + tpl + ' -> ' + tgt);
-
-	var oRet = {};
-	oRet.err = '0';
-	oRet.txt = '';
-	
-	_ncp( tpl, tgt, function( err) {
-		if( err) {
-			oRet.err = 1;
-			oRet.txt = err;
-			console.error( err);			
-			res.send( JSON.stringify( oRet));
-			
-		} else {
-			console.log( "Done.");
-			res.send( JSON.stringify( oRet));
+request.get( {
+    url : url,
+    headers : {
+        "Authorization" : auth
+    }
+  }, function(error, response, body) {
+      
+	 var setcookie = response.headers["set-cookie"];
+		if ( setcookie ) {
+			setcookie.forEach(
+				function ( cookiestr ) {
+					console.log( "COOKIE:" + cookiestr );
+					return cookiestr;
+				}
+			);
 		}
+	 console.log('body : ', body);
+	 res.send(setcookie + body);
+  } );
+
+/*var postConfig = { 
+   url: "http://dev.qalgo.de/mail/bchiruma.nsf/api/calendar/events?format=icalendar", 
+   method: "POST", 
+   rejectUnauthorized: false, 
+   json: true, 
+   
+   "auth": { 
+         "user": usr, 
+         "pass": pwd 
+   }, 
+   
+   headers: { 
 		
-		console.log( '<-- cloneFolder');
-	});			
+       "content-type": "application/json" 
+   }, 
+   body: 
+      
+   {
+  "events": [
+    {
+      "summary":"Appointment 2",
+      "location":"Location 2",
+      "start": {
+        "date":"2017-05-17",
+        "time":"15:00:00",
+        "utc":true
+      },
+      "end": {
+        "date":"2017-05-17",
+        "time":"16:00:00",
+        "utc":true
+      }
+    }
+  ]
 }
+
+}; 
+
+request(postConfig, function(err, httpResponse, body) { 
+console.log( 'error' + err);
+console.log( 'httpResponse' + httpResponse);
+console.log( 'body' + body);
+ 
+})*/
+
+	console.log( '<-- domController.login');
+}
+
+
 
 /**
 *  Module interface
 */
 module.exports = {
-	init: init,
-    cloneFolder: cloneFolder
+	login: login
 }

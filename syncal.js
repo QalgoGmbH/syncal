@@ -14,6 +14,9 @@ var express = require( 'express');
 var router = express.Router();
 var app = express();
 var _querystring = require('querystring');
+var usr = 'bhargavi chirumamilla';
+var pwd = 'pradesh07';
+const request = require("request");
 
 // version
 var appVer = '0.90 Beta';
@@ -32,12 +35,64 @@ router.get( '/version', function( req, res) {
 	res.send( json);
 });
 
+
+
+
+
+
+/*var tst = exports.tst = function() {
+	
+
+var postConfig = { 
+   url: "http://dev.qalgo.de/mail/bchiruma.nsf/api/calendar/events?format=icalendar", 
+   method: "POST", 
+   rejectUnauthorized: false, 
+   json: true, 
+   "auth": { 
+         "user": usr, 
+         "pass": pwd 
+   }, 
+   headers: { 
+       "content-type": "application/text" 
+   }, 
+   body: encodeURIComponent(JSON.stringify(configObj.postData))
+   
+   {
+  "events": [
+    {
+      "summary":"Appointment 2",
+      "location":"Location 2",
+      "start": {
+        "date":"2017-05-17",
+        "time":"15:00:00",
+        "utc":true
+      },
+      "end": {
+        "date":"2017-05-17",
+        "time":"16:00:00",
+        "utc":true
+      }
+    }
+  ]
+}
+
+}; 
+
+request(postConfig, function(err, httpResponse, body) { 
+console.log( 'error' + err);
+console.log( 'httpResponse' + httpResponse);
+console.log( 'body' + body);
+ 
+})
+}*/
+
 /**
 * int() - initializes the specified interface (i.e. dom)
 */
-router.get( '/syn/init', function( req, res) {		
+router.get( '/syn/login', function( req, res) {	
 	var synCtrl = require( './controllers/synController');
-	synCtrl.init( req.query.itf, req.query.nm, req.query.pwd, res);
+	synCtrl.login( req.query.itf, req.query.nm, req.query.pwd, res);
+	
 });
 
 router.get( '/syn/createAppointment', function( req, res) {		
