@@ -14,8 +14,6 @@ var express = require( 'express');
 var router = express.Router();
 var app = express();
 var _querystring = require('querystring');
-var usr = 'bhargavi chirumamilla';
-var pwd = 'pradesh07';
 const request = require("request");
 
 // version
@@ -25,6 +23,7 @@ var appRelease = '05.04.2017';
 console.log( 'SynCal-Node, the Synapcus Calendar Synchronizator');
 console.log( 'Version ' + appVer + ', released on ' + appRelease);
 console.log( 'Copyright 2017 by Qalgo GmbH. All rights reserved.');
+
 
 router.get( '/version', function( req, res) {		
 	var oRet = {};
@@ -37,57 +36,8 @@ router.get( '/version', function( req, res) {
 
 
 
-
-
-
-/*var tst = exports.tst = function() {
-	
-
-var postConfig = { 
-   url: "http://dev.qalgo.de/mail/bchiruma.nsf/api/calendar/events?format=icalendar", 
-   method: "POST", 
-   rejectUnauthorized: false, 
-   json: true, 
-   "auth": { 
-         "user": usr, 
-         "pass": pwd 
-   }, 
-   headers: { 
-       "content-type": "application/text" 
-   }, 
-   body: encodeURIComponent(JSON.stringify(configObj.postData))
-   
-   {
-  "events": [
-    {
-      "summary":"Appointment 2",
-      "location":"Location 2",
-      "start": {
-        "date":"2017-05-17",
-        "time":"15:00:00",
-        "utc":true
-      },
-      "end": {
-        "date":"2017-05-17",
-        "time":"16:00:00",
-        "utc":true
-      }
-    }
-  ]
-}
-
-}; 
-
-request(postConfig, function(err, httpResponse, body) { 
-console.log( 'error' + err);
-console.log( 'httpResponse' + httpResponse);
-console.log( 'body' + body);
- 
-})
-}*/
-
 /**
-* int() - initializes the specified interface (i.e. dom)
+* login() 				- 	Initializes the specified interface (i.e. dom)
 */
 router.get( '/syn/login', function( req, res) {	
 	var synCtrl = require( './controllers/synController');
@@ -95,15 +45,71 @@ router.get( '/syn/login', function( req, res) {
 	
 });
 
-router.get( '/syn/createAppointment', function( req, res) {		
+/**
+*   createAppointment() - 	Creates an appointment in the given interface
+*/
+router.post( '/syn/createAppointment', function( req, res) {
+
 	var synCtrl = require( './controllers/synController');
-	synCtrl.createAppointment( req.query.itf, req.query.start, req.query.end, res.query.summary, res.query.location, res);
+	synCtrl.createAppointment(req,res);
 });
 
-router.get( '/syn/createMeeting', function( req, res) {		
+/**
+*   createMeeting()		-	Creates a meeting in the given interface
+*/
+router.post( '/syn/createMeeting', function( req, res) {		
 	var synCtrl = require( './controllers/synController');
-	synCtrl.createMeeting( req.query.itf, req.query.nm, req.query.pwd, res);
+	synCtrl.createMeeting(req,res);
 });
+
+/**
+*   createAllDayEvent() - 	Creates an All Day Event in the given interface
+*/
+router.post( '/syn/createAllDayEvent', function( req, res) {		
+	var synCtrl = require( './controllers/synController');
+	synCtrl.createAllDayEvent(req,res);
+});
+
+/**
+*   createAnniversary() - 	Creates an Anniversary event in the given interface
+*/
+router.post( '/syn/createAnniversary', function( req, res) {		
+	var synCtrl = require( './controllers/synController');
+	synCtrl.createAnniversary(req,res);
+});
+
+/**
+*   createReminder()	- 	Creates a Reminder in the given interface
+*/
+router.post( '/syn/createReminder', function( req, res) {		
+	var synCtrl = require( './controllers/synController');
+	synCtrl.createReminder(req,res);
+});
+
+/**
+*   getEvents()			- 	Reads events from the calendar
+*/
+router.get( '/syn/getEvents', function( req, res) {		
+	var synCtrl = require( './controllers/synController');
+	synCtrl.getEvents(req,res);
+});
+
+/**
+*   updateEvent()		- 	Updates a calendar event 
+*/
+router.put( '/syn/updateEvent', function( req, res) {		
+	var synCtrl = require( './controllers/synController');
+	synCtrl.updateEvent(req,res);
+});
+
+/**
+*   deleteEvent()		- 	Deletes a calendar event 
+*/
+router.delete( '/syn/deleteEvent', function( req, res) {		
+	var synCtrl = require( './controllers/synController');
+	synCtrl.deleteEvent(req,res);
+});
+
 
 app.use( '/syncal', router);
 
