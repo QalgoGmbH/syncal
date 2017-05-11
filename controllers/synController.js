@@ -12,7 +12,8 @@ var _config = require( 'config');
 
 
 /**
-*   login()		- initializes the communication with the Interface System
+*   login()	- initializes the communication with the Interface System
+*
 *   @param itf 	- interface name
 *   @param usr	- user name
 *   @param pwd 	- password
@@ -36,8 +37,10 @@ login = function( itf, usr, pwd, res) {
 	console.log( '<-- synController.login');
 }
 
+
 /**
-* createAppointemnt()	- 	creates an appointment in the given interface
+* createAppointemnt() - creates an appointment in the given interface
+*
 * @param summary	 	- 	short outline of the appointment's purpose
 * @param location 		- 	location where the appointment takes place
 * @param start:date		- 	start date of the appointment
@@ -51,21 +54,22 @@ createAppointment = function(req, res) {
 	console.log( '--> synController.createAppointment');
 	
 	var body = "";
-		req.on('data', function (data) {
-        body += data;
-		});
+	req.on('data', function (data) {
+		body += data;
+	});
 	
-		req.on('end', function() {
-        console.log(JSON.parse(JSON.stringify((body.toString()))));		
+	req.on('end', function() {
+		console.log(JSON.parse(JSON.stringify((body.toString()))));		
 		res.json({ message: 'goodbye'})
-		});	
+	});	
 
 	console.log( '<-- synController.createAppointment');
 }
 
 
 /**
-* createMeeting()		- 	creates a meeting in the given interface
+* createMeeting() - creates a meeting in the given interface
+*
 * @param summary 		- 	Agenda of the meeting
 * @param location 		- 	location where the meeting takes place
 * @param start:date		- 	start date of the meeting
@@ -81,21 +85,23 @@ createAppointment = function(req, res) {
 createMeeting = function(req, res) {
 	
 	console.log( '--> synController.createMeeting');
-		var body = "";
-		req.on('data', function (data) {
-        body += data;
-		});
+	var body = "";
+	req.on('data', function (data) {
+		body += data;
+	});
 	
-		req.on('end', function() {
+	req.on('end', function() {
         console.log(JSON.parse(JSON.stringify((body.toString()))));		
 		res.json({ message: 'goodbye'})
-		});	
+	});	
 	
 	console.log( '<-- synController.createMeeting');
 }
 
+
 /**
-* createAllDayEvent()	- creates an All Day Event in the given interface
+* createAllDayEvent() - creates an All Day Event in the given interface
+*
 * @param summary 		- Summary of the event
 * @param location 		- location where the event takes place
 * @param start:date		- start date of the event
@@ -105,22 +111,24 @@ createMeeting = function(req, res) {
 createAllDayEvent = function(req, res) {
 	
 	console.log( '--> synController.createAllDayEvent');
-		var body = "";
-		req.on('data', function (data) {
-        body += data;
-		});
 	
-		req.on('end', function() {
+	var body = "";
+	req.on('data', function (data) {
+		body += data;
+	});
+	
+	req.on('end', function() {
         console.log(JSON.parse(JSON.stringify((body.toString()))));		
 		res.json({ message: 'goodbye'})
-		});	
+	});	
 	
 	console.log( '<-- synController.createAllDayEvent');
 }
 
 
 /**
-* createAnniversary()	- creates an Anniversary event in the given interface
+* createAnniversary() - creates an Anniversary event in the given interface
+*
 * @param summary		- The Anniversary's name
 * @param location 		- location where the Anniversary event takes place
 * @param start:date 	- date of the Anniversary
@@ -129,21 +137,24 @@ createAllDayEvent = function(req, res) {
 createAnniversary = function(req, res) {
 	
 	console.log( '--> synController.createAnniversary ');
-		var body = "";
-		req.on('data', function (data) {
-        body += data;
-		});
 	
-		req.on('end', function() {
+	var body = "";
+	req.on('data', function (data) {
+        body += data;
+	});
+	
+	req.on('end', function() {
         console.log(JSON.parse(JSON.stringify((body.toString()))));		
 		res.json({ message: 'goodbye'})
-		});	
+	});	
 	
 	console.log( '<-- synController.createAnniversary ');
 }
 
+
 /**
-* createReminder() 		- creates a Reminder in the given interface
+* createReminder() - creates a Reminder in the given interface
+*
 * @param summary 		- Outline of the Reminder
 * @param location		- location of the event
 * @param start:date		- start date of the Reminder
@@ -153,59 +164,63 @@ createAnniversary = function(req, res) {
 createReminder = function(req, res) {
 	
 	console.log( '--> synController.createReminder');
-		var body = "";
-		req.on('data', function (data) {
-        body += data;
-		});
 	
-		req.on('end', function() {
+	var body = "";
+	req.on('data', function (data) {
+        body += data;
+	});
+	
+	req.on('end', function() {
         console.log(JSON.parse(JSON.stringify((body.toString()))));		
 		res.json({ message: 'goodbye'})
-		});	
+	});	
 	
 	console.log( '<-- synController.createReminder');
 }
 
+
 /**
-*   getEvents()			- 	Reads events from the calendar
+*   getEvents() - Reads events from the calendar
 */
 getEvents = function(req, res) {
 	
 	console.log( '--> synController.getEvents');
-			
-	
+				
 	console.log( '<-- synController.getEvents');
 }
 
+
 /**
-*   updateEvent()		- 	Updates a calendar event 
+*   updateEvent() - Updates a calendar event 
 */
 updateEvent = function(req, res) {
 	
 	console.log( '--> synController.updateEvent');
-		var body = "";
+	
+	var body = "";
 		req.on('data', function (data) {
         body += data;
-		});
+	});
 	
-		req.on('end', function() {
+	req.on('end', function() {
         console.log(JSON.parse(JSON.stringify((body.toString()))));		
 		res.json({ message: 'goodbye'})
-		});	
+	});	
 	
 	console.log( '<-- synController.updateEvent');
 }
 
+
 /**
-*   deleteEvent()		- 	Deletes a calendar event 
+*   deleteEvent() - 	Deletes a calendar event 
 */
 deleteEvent = function(req, res) {
 	
 	console.log( '--> synController.deleteEvent');
-		
-	
+			
 	console.log( '<-- synController.deleteEvent');
 }
+
 
 /**
 *   createAppointment() - creates an appointment in the given interface
@@ -236,10 +251,6 @@ createAppointment = function( tsStart, tsEnd, sSummary, sLocation) {
 	
 	console.log( '<-- synController.createAppointment');
 }*/
-
-
-
-
 
 
 /**

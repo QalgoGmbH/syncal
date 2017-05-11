@@ -35,7 +35,6 @@ router.get( '/version', function( req, res) {
 });
 
 
-
 /**
 * login() 				- 	Initializes the specified interface (i.e. dom)
 */
@@ -44,6 +43,7 @@ router.get( '/syn/login', function( req, res) {
 	synCtrl.login( req.query.itf, req.query.nm, req.query.pwd, res);
 	
 });
+
 
 /**
 *   createAppointment() - 	Creates an appointment in the given interface
@@ -54,56 +54,63 @@ router.post( '/syn/createAppointment', function( req, res) {
 	synCtrl.createAppointment(req,res);
 });
 
+
 /**
-*   createMeeting()		-	Creates a meeting in the given interface
+*   createMeeting()	- Creates a meeting in the given interface
 */
 router.post( '/syn/createMeeting', function( req, res) {		
 	var synCtrl = require( './controllers/synController');
 	synCtrl.createMeeting(req,res);
 });
 
+
 /**
-*   createAllDayEvent() - 	Creates an All Day Event in the given interface
+*   createAllDayEvent() - Creates an All Day Event in the given interface
 */
 router.post( '/syn/createAllDayEvent', function( req, res) {		
 	var synCtrl = require( './controllers/synController');
 	synCtrl.createAllDayEvent(req,res);
 });
 
+
 /**
-*   createAnniversary() - 	Creates an Anniversary event in the given interface
+* createAnniversary() -	Creates an Anniversary event in the given interface
 */
 router.post( '/syn/createAnniversary', function( req, res) {		
 	var synCtrl = require( './controllers/synController');
 	synCtrl.createAnniversary(req,res);
 });
 
+
 /**
-*   createReminder()	- 	Creates a Reminder in the given interface
+* createReminder() - Creates a Reminder in the given interface
 */
 router.post( '/syn/createReminder', function( req, res) {		
 	var synCtrl = require( './controllers/synController');
 	synCtrl.createReminder(req,res);
 });
 
+
 /**
-*   getEvents()			- 	Reads events from the calendar
+* getEvents() - Reads events from the calendar
 */
 router.get( '/syn/getEvents', function( req, res) {		
 	var synCtrl = require( './controllers/synController');
 	synCtrl.getEvents(req,res);
 });
 
+
 /**
-*   updateEvent()		- 	Updates a calendar event 
+* updateEvent() -	Updates a calendar event 
 */
 router.put( '/syn/updateEvent', function( req, res) {		
 	var synCtrl = require( './controllers/synController');
 	synCtrl.updateEvent(req,res);
 });
 
+
 /**
-*   deleteEvent()		- 	Deletes a calendar event 
+* deleteEvent()	- Deletes a calendar event 
 */
 router.delete( '/syn/deleteEvent', function( req, res) {		
 	var synCtrl = require( './controllers/synController');
