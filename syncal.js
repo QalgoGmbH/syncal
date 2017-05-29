@@ -36,7 +36,9 @@ router.get( '/version', function( req, res) {
 
 
 /**
-* login() 				- 	Initializes the specified interface (i.e. dom)
+* login() - Initializes the specified interface (i.e. dom)
+*   Example:
+*   [hostname]/syncal/syn/login/?itf=dom&nm=Userame&pwd=Password
 */
 router.get( '/syn/login', function( req, res) {	
 	var synCtrl = require( './controllers/synController');
@@ -46,7 +48,9 @@ router.get( '/syn/login', function( req, res) {
 
 
 /**
-*   createAppointment() - 	Creates an appointment in the given interface
+*   createAppointment() - Creates an appointment in the given interface
+*   Example:
+*   [hostname]/syncal/syn/createAppointment
 */
 router.post( '/syn/createAppointment', function( req, res) {
 
@@ -57,6 +61,8 @@ router.post( '/syn/createAppointment', function( req, res) {
 
 /**
 *   createMeeting()	- Creates a meeting in the given interface
+*   Example:
+*   [hostname]/syncal/syn/createMeeting
 */
 router.post( '/syn/createMeeting', function( req, res) {		
 	var synCtrl = require( './controllers/synController');
@@ -66,6 +72,8 @@ router.post( '/syn/createMeeting', function( req, res) {
 
 /**
 *   createAllDayEvent() - Creates an All Day Event in the given interface
+*   Example:
+*   [hostname]/syncal/syn/createAllDayEvent
 */
 router.post( '/syn/createAllDayEvent', function( req, res) {		
 	var synCtrl = require( './controllers/synController');
@@ -75,6 +83,8 @@ router.post( '/syn/createAllDayEvent', function( req, res) {
 
 /**
 * createAnniversary() -	Creates an Anniversary event in the given interface
+*   Example:
+*   [hostname]/syncal/syn/createAnniversary
 */
 router.post( '/syn/createAnniversary', function( req, res) {		
 	var synCtrl = require( './controllers/synController');
@@ -84,6 +94,8 @@ router.post( '/syn/createAnniversary', function( req, res) {
 
 /**
 * createReminder() - Creates a Reminder in the given interface
+*   Example:
+*   [hostname]/syncal/syn/createReminder
 */
 router.post( '/syn/createReminder', function( req, res) {		
 	var synCtrl = require( './controllers/synController');
@@ -93,6 +105,8 @@ router.post( '/syn/createReminder', function( req, res) {
 
 /**
 * getEvents() - Reads events from the calendar
+*   Example:
+*   [hostname]/syncal/syn/getEvents
 */
 router.get( '/syn/getEvents', function( req, res) {		
 	var synCtrl = require( './controllers/synController');
@@ -102,6 +116,8 @@ router.get( '/syn/getEvents', function( req, res) {
 
 /**
 * updateEvent() -	Updates a calendar event 
+*   Example:
+*   [hostname]/syncal/syn/updateEvent
 */
 router.put( '/syn/updateEvent', function( req, res) {		
 	var synCtrl = require( './controllers/synController');
@@ -111,6 +127,8 @@ router.put( '/syn/updateEvent', function( req, res) {
 
 /**
 * deleteEvent()	- Deletes a calendar event 
+*   Example:
+*   [hostname]/syncal/syn/deleteEvent
 */
 router.delete( '/syn/deleteEvent', function( req, res) {		
 	var synCtrl = require( './controllers/synController');

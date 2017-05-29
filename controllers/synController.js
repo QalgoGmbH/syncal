@@ -9,6 +9,7 @@
 */
 
 var _config = require( 'config');
+var pdata = '';
 
 
 /**
@@ -21,18 +22,17 @@ var _config = require( 'config');
 */
 login = function( itf, usr, pwd, res) {
 	
-	console.log( '--> synController.login: ' + itf);
+	console.log( '--> synController.login: ' + itf);	
 	
 	self = this;
-	self.m_itf = itf;
-	
+	self.m_itf = itf;	
 	// Domino interface
 	if( self.m_itf == 'dom') { 
 		var domCtrl = require( './domController');
 		domCtrl.login( usr, pwd, res);
 	} else if( self.m_itf == 'ews') {
 		// ... code for Microsoft EWS
-	}		
+	}	
 	
 	console.log( '<-- synController.login');
 }
@@ -59,10 +59,14 @@ createAppointment = function(req, res) {
 	});
 	
 	req.on('end', function() {
-		console.log(JSON.parse(JSON.stringify((body.toString()))));		
+		pdata=JSON.parse(JSON.stringify((body.toString())));
+		//console.log(pdata);		
 		res.json({ message: 'goodbye'})
 	});	
-
+	
+	var domCtrl = require( './domController');
+	domCtrl.createEvent( req, pdata, res);
+		
 	console.log( '<-- synController.createAppointment');
 }
 
@@ -91,10 +95,12 @@ createMeeting = function(req, res) {
 	});
 	
 	req.on('end', function() {
-        console.log(JSON.parse(JSON.stringify((body.toString()))));		
+		pdata = JSON.parse(JSON.stringify((body.toString())))
+        //console.log(pdata);		
 		res.json({ message: 'goodbye'})
 	});	
-	
+	var domCtrl = require( './domController');
+	domCtrl.createEvent( req, pdata, res);
 	console.log( '<-- synController.createMeeting');
 }
 
@@ -118,10 +124,12 @@ createAllDayEvent = function(req, res) {
 	});
 	
 	req.on('end', function() {
-        console.log(JSON.parse(JSON.stringify((body.toString()))));		
+        pdata = JSON.parse(JSON.stringify((body.toString())))
+        //console.log(pdata);		
 		res.json({ message: 'goodbye'})
 	});	
-	
+	var domCtrl = require( './domController');
+	domCtrl.createEvent( req, pdata, res);
 	console.log( '<-- synController.createAllDayEvent');
 }
 
@@ -144,10 +152,12 @@ createAnniversary = function(req, res) {
 	});
 	
 	req.on('end', function() {
-        console.log(JSON.parse(JSON.stringify((body.toString()))));		
+        pdata = JSON.parse(JSON.stringify((body.toString())))
+        //console.log(pdata);	
 		res.json({ message: 'goodbye'})
 	});	
-	
+	var domCtrl = require( './domController');
+	domCtrl.createEvent( req, pdata, res);
 	console.log( '<-- synController.createAnniversary ');
 }
 
@@ -171,10 +181,12 @@ createReminder = function(req, res) {
 	});
 	
 	req.on('end', function() {
-        console.log(JSON.parse(JSON.stringify((body.toString()))));		
+        pdata = JSON.parse(JSON.stringify((body.toString())))
+        //console.log(pdata);		
 		res.json({ message: 'goodbye'})
 	});	
-	
+	var domCtrl = require( './domController');
+	domCtrl.createEvent( req, pdata, res);
 	console.log( '<-- synController.createReminder');
 }
 
@@ -185,6 +197,9 @@ createReminder = function(req, res) {
 getEvents = function(req, res) {
 	
 	console.log( '--> synController.getEvents');
+				
+	var domCtrl = require( './domController');
+	domCtrl.getEvents( req, res);			
 				
 	console.log( '<-- synController.getEvents');
 }
@@ -198,7 +213,7 @@ updateEvent = function(req, res) {
 	console.log( '--> synController.updateEvent');
 	
 	var body = "";
-		req.on('data', function (data) {
+	req.on('data', function (data) {
         body += data;
 	});
 	
@@ -217,40 +232,10 @@ updateEvent = function(req, res) {
 deleteEvent = function(req, res) {
 	
 	console.log( '--> synController.deleteEvent');
-			
+	var domCtrl = require( './domController');
+	domCtrl.deleteEvent( req, res);			
 	console.log( '<-- synController.deleteEvent');
 }
-
-
-/**
-*   createAppointment() - creates an appointment in the given interface
-
-createAppointment = function( tsStart, tsEnd, sSummary, sLocation) {
-	
-	console.log( '--> synController.createAppointment');
-	
-	self = this;
-	
-	// Domino interface
-	if( self.m_itf == 'dom') { 
-		var domCtrl = require( './controllers/domController');
-		domController.login();
-		
-		// convert timestamp dates into iso-dates required by domino
-		var dtStart = new Date( tsStart);
-		
-		var dtEnd = new Date( tsEnd);
-		domCtrl.createAppointement( dtStart, dtEnd, sSummary, sLocation);
-		
-	// Microsoft Exchange Web Services Interface
-	} else if( self.m_itf == 'ews') {
-		
-		// ... code for Microsoft EWS
-		
-	}		
-	
-	console.log( '<-- synController.createAppointment');
-}*/
 
 
 /**
