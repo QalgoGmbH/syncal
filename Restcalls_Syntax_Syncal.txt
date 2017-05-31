@@ -1,0 +1,18 @@
+http://192.168.2.183:8083/syncal/syn/login?itf=dom&host=dev.qalgo.de&mail=bchiruma.nsf&usr=bhargavi chirumamilla&pwd=Pradesh07
+
+192.168.2.183:8083/syncal/syn/createAppointment?itf=dom&host=dev.qalgo.de&mail=bchiruma.nsf
+
+192.168.2.183:8083/syncal/syn/createReminder?itf=dom&host=dev.qalgo.de&mail=bchiruma.nsf
+
+192.168.2.183:8083/syncal/syn/createMeeting?itf=dom&host=dev.qalgo.de&mail=bchiruma.nsf
+
+192.168.2.183:8083/syncal/syn/createAllDayEvent?itf=dom&host=dev.qalgo.de&mail=bchiruma.nsf
+
+192.168.2.183:8083/syncal/syn/createAnniversary?itf=dom&host=dev.qalgo.de&mail=bchiruma.nsf
+
+192.168.2.183:8083/syncal/syn/getEvents?itf=dom&host=dev.qalgo.de&mail=bchiruma.nsf
+
+192.168.2.183:8083/syncal/syn/deleteEvent?itf=dom&host=dev.qalgo.de&mail=bchiruma.nsf&id=36F8CEE87E76F1FEC125812F0054B712
+
+192.168.2.183:8083/syncal/syn/updateEvent?itf=dom&host=dev.qalgo.de&mail=bchiruma.nsf&id=36F8CEE87E76F1FEC125812F0054B712
+

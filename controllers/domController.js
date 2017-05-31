@@ -16,15 +16,35 @@ var token = '';
 var sessId = '';
 var bdata = '';
 
+/**
+*   buildUrl() - builds the url to communicate with the Domino System
+*/
+
+buildUrl = function(host, mail, id, res) {
+	console.log( '--> domController.url'); 
+	
+	var url = '';
+	if(id == undefined || id == null)
+	{
+	url = "http://" + host + "/mail/" + mail + "/api/calendar/events?format=icalendar";	
+	}
+	else
+	{
+	url = "http://" + host + "/mail/" + mail + "/api/calendar/events/" + id + "-Lotus_Auto_Generated";	
+	}
+	console.log( 'The URL is: ' + url);
+	return url;
+	console.log( '<-- domController.url');
+}
 
 /**
 *   login() - initiazes the communication with the Domino System
 */
-login = function(usr, pwd, res) {
+login = function(url, usr, pwd, res) {
 	console.log( '--> domController.login'); 	
 	//Basic authentication	
 	var auth = "Basic " + new Buffer(usr + ":" + pwd).toString("base64");
-	var url = "http://dev.qalgo.de/mail/bchiruma.nsf/api/calendar/events?format=json";
+	//var url = "http://dev.qalgo.de/mail/bchiruma.nsf/api/calendar/events?format=json";
 		request.get( {
 			url : url,
 			headers : {
@@ -62,11 +82,11 @@ login = function(usr, pwd, res) {
 * createEvents() - creates an Anniversary event in the given interface
 * @Variable pdata - Contains the json data for creating an event(E.g. Meeting, Appointment, Reminder etc.)
 */
-createEvent = function(req, pdata, res) {
+createEvent = function(req, url, pdata, res) {
 	console.log( '--> domController.createEvent'); 
 	console.log( '--> pdata ' + pdata);				
 	var postConfig = { 
-		url: "http://dev.qalgo.de/mail/bchiruma.nsf/api/calendar/events?format=icalendar", 
+		url: url, 
 		method: "POST", 
 		rejectUnauthorized: false,        	
 		headers: { 
@@ -87,31 +107,70 @@ createEvent = function(req, pdata, res) {
 /**
 *   getEvents() - Reads events from the calendar
 */
-getEvents = function( req,res) {	
-	var url = "http://dev.qalgo.de/mail/bchiruma.nsf/api/calendar/events?format=json";
+getEvents = function( req, url, res) {	
+	console.log( '--> domController.get');	
 	request.get( {
 		url : url,
 		headers: { 		
 			"Cookie": sessId					
 		},
 	}, function(error, response, body) {      
-		//console.log('body : ', body);	
-		res.send(body); 	 	 
+			res.send(body); 	 	 
 	}); 
+	console.log( '<-- domController.get');
 }
 
 
+/**
+*   updateEvent() - Updates a specified event from the calendar
+*/
+updateEvent = function( req, url, pdata, res) {	
+	console.log( '--> domController.updateEvent');	
+console.log( '--> pdata ' + pdata);				
+	var postConfig = { 
+		url: url, 
+		method: "PUT", 
+		rejectUnauthorized: false,        	
+		headers: { 
+			"Content-type": "application/json",
+			"Cookie": sessId					
+		},      
+		body: pdata	
+	}; 
+	request(postConfig, function(err, httpResponse, body) { 
+		console.log( 'error' + err);
+		console.log( 'httpResponse' + httpResponse);
+		console.log( 'body' + body); 
+	})	
+	console.log( '<-- domController.updateEvent');
+}
 
 
-
-
+/**
+*   deleteEvent() - Deletes a specified event from the calendar
+*/
+deleteEvent = function( req, url, res) {	
+	console.log( '--> domController.delete');	
+	request.del( {
+		url : url,
+		headers: { 		
+			"Cookie": sessId					
+		},
+	}, function(error, response, body) {      
+			res.send(response); 	 	 
+	}); 
+	console.log( '<-- domController.delete');
+}
 
 
 /**
 *  Module interface
 */
 module.exports = {
+	buildUrl:buildUrl,
 	login: login,
 	createEvent: createEvent,
-	getEvents: getEvents
+	getEvents: getEvents,
+	deleteEvent:deleteEvent,
+	updateEvent:updateEvent
 }

@@ -20,16 +20,17 @@ var pdata = '';
 *   @param pwd 	- password
 *   @return 	- succes or error
 */
-login = function( itf, usr, pwd, res) {
+login = function( itf, host, mail, id, usr, pwd, res) {
 	
 	console.log( '--> synController.login: ' + itf);	
 	
 	self = this;
 	self.m_itf = itf;	
 	// Domino interface
-	if( self.m_itf == 'dom') { 
-		var domCtrl = require( './domController');
-		domCtrl.login( usr, pwd, res);
+	if( self.m_itf == 'dom') { 		
+	    var domCtrl = require( './domController');				
+		var url = domCtrl.buildUrl( host, mail, id, res);	
+		domCtrl.login( url, usr, pwd, res);
 	} else if( self.m_itf == 'ews') {
 		// ... code for Microsoft EWS
 	}	
@@ -49,10 +50,12 @@ login = function( itf, usr, pwd, res) {
 * @param end:time 		- 	end time of the appointment
 * @param Description 	- 	description(for eg. purpose/ToDo )of the appointment
 */
-createAppointment = function(req, res) {
-	
-	console.log( '--> synController.createAppointment');
-	
+createAppointment = function(req, itf, host, mail, id, res) {
+		
+	console.log( '--> synController.createAppointment' + itf);
+	self = this;
+	self.m_itf = itf;
+
 	var body = "";
 	req.on('data', function (data) {
 		body += data;
@@ -64,9 +67,14 @@ createAppointment = function(req, res) {
 		res.json({ message: 'goodbye'})
 	});	
 	
-	var domCtrl = require( './domController');
-	domCtrl.createEvent( req, pdata, res);
-		
+	if( self.m_itf == 'dom') { 		
+	    var domCtrl = require( './domController');				
+		var url = domCtrl.buildUrl( host, mail, id, res);	
+		domCtrl.createEvent( req, url, pdata, res);		
+	} else if( self.m_itf == 'ews') {
+		// ... code for Microsoft EWS
+	}
+				
 	console.log( '<-- synController.createAppointment');
 }
 
@@ -86,9 +94,11 @@ createAppointment = function(req, res) {
 * @param end:time		- 	end time of the meeting
 * @param Description	- 	description(for eg. purpose/ToDo )of the meeting
 */
-createMeeting = function(req, res) {
+createMeeting = function(req, itf, host, mail, id, res) {
 	
 	console.log( '--> synController.createMeeting');
+	self = this;
+	self.m_itf = itf;
 	var body = "";
 	req.on('data', function (data) {
 		body += data;
@@ -99,8 +109,13 @@ createMeeting = function(req, res) {
         //console.log(pdata);		
 		res.json({ message: 'goodbye'})
 	});	
-	var domCtrl = require( './domController');
-	domCtrl.createEvent( req, pdata, res);
+	if( self.m_itf == 'dom') { 		
+	    var domCtrl = require( './domController');				
+		var url = domCtrl.buildUrl( host, mail, id, res);	
+		domCtrl.createEvent( req, url, pdata, res);		
+	} else if( self.m_itf == 'ews') {
+		// ... code for Microsoft EWS
+	}
 	console.log( '<-- synController.createMeeting');
 }
 
@@ -114,10 +129,11 @@ createMeeting = function(req, res) {
 * @param end:date 		- end date of the event
 * @param Description 	- details(for eg. schedule)of the event
 */
-createAllDayEvent = function(req, res) {
+createAllDayEvent = function(req, itf, host, mail, id, res) {
 	
 	console.log( '--> synController.createAllDayEvent');
-	
+	self = this;
+	self.m_itf = itf;
 	var body = "";
 	req.on('data', function (data) {
 		body += data;
@@ -128,8 +144,13 @@ createAllDayEvent = function(req, res) {
         //console.log(pdata);		
 		res.json({ message: 'goodbye'})
 	});	
-	var domCtrl = require( './domController');
-	domCtrl.createEvent( req, pdata, res);
+	if( self.m_itf == 'dom') { 		
+	    var domCtrl = require( './domController');				
+		var url = domCtrl.buildUrl( host, mail, id, res);	
+		domCtrl.createEvent( req, url, pdata, res);		
+	} else if( self.m_itf == 'ews') {
+		// ... code for Microsoft EWS
+	}
 	console.log( '<-- synController.createAllDayEvent');
 }
 
@@ -142,10 +163,11 @@ createAllDayEvent = function(req, res) {
 * @param start:date 	- date of the Anniversary
 * @param Description 	- details of the Anniversary event
 */
-createAnniversary = function(req, res) {
+createAnniversary = function(req, itf, host, mail, id, res) {
 	
 	console.log( '--> synController.createAnniversary ');
-	
+	self = this;
+	self.m_itf = itf;
 	var body = "";
 	req.on('data', function (data) {
         body += data;
@@ -156,8 +178,13 @@ createAnniversary = function(req, res) {
         //console.log(pdata);	
 		res.json({ message: 'goodbye'})
 	});	
-	var domCtrl = require( './domController');
-	domCtrl.createEvent( req, pdata, res);
+	if( self.m_itf == 'dom') { 		
+	    var domCtrl = require( './domController');				
+		var url = domCtrl.buildUrl( host, mail, id, res);	
+		domCtrl.createEvent( req, url, pdata, res);		
+	} else if( self.m_itf == 'ews') {
+		// ... code for Microsoft EWS
+	}
 	console.log( '<-- synController.createAnniversary ');
 }
 
@@ -171,10 +198,11 @@ createAnniversary = function(req, res) {
 * @param start:time 	- start time of the Reminder
 * @param Description	- description of the Reminder
 */
-createReminder = function(req, res) {
+createReminder = function(req, itf, host, mail, id, res) {
 	
 	console.log( '--> synController.createReminder');
-	
+	self = this;
+	self.m_itf = itf;
 	var body = "";
 	req.on('data', function (data) {
         body += data;
@@ -185,8 +213,13 @@ createReminder = function(req, res) {
         //console.log(pdata);		
 		res.json({ message: 'goodbye'})
 	});	
-	var domCtrl = require( './domController');
-	domCtrl.createEvent( req, pdata, res);
+	if( self.m_itf == 'dom') { 		
+	    var domCtrl = require( './domController');				
+		var url = domCtrl.buildUrl( host, mail, id, res);	
+		domCtrl.createEvent( req, url, pdata, res);		
+	} else if( self.m_itf == 'ews') {
+		// ... code for Microsoft EWS
+	}
 	console.log( '<-- synController.createReminder');
 }
 
@@ -194,13 +227,22 @@ createReminder = function(req, res) {
 /**
 *   getEvents() - Reads events from the calendar
 */
-getEvents = function(req, res) {
+getEvents = function(req, itf, host, mail, id, res) {
 	
 	console.log( '--> synController.getEvents');
-				
-	var domCtrl = require( './domController');
-	domCtrl.getEvents( req, res);			
-				
+	
+	self = this;
+	self.m_itf = itf;
+	console.log( self.m_itf);
+	
+	if( self.m_itf == 'dom') { 		
+	    var domCtrl = require( './domController');				
+		var url = domCtrl.buildUrl( host, mail, id, res);	
+		domCtrl.getEvents( req, url, res);		
+	} else if( self.m_itf == 'ews') {
+		// ... code for Microsoft EWS
+	}
+					
 	console.log( '<-- synController.getEvents');
 }
 
@@ -208,9 +250,14 @@ getEvents = function(req, res) {
 /**
 *   updateEvent() - Updates a calendar event 
 */
-updateEvent = function(req, res) {
+updateEvent = function(req, itf, host, mail, id, res) {
 	
 	console.log( '--> synController.updateEvent');
+	
+	self = this;
+	self.m_itf = itf;
+	console.log( self.m_itf);
+	
 	
 	var body = "";
 	req.on('data', function (data) {
@@ -218,9 +265,17 @@ updateEvent = function(req, res) {
 	});
 	
 	req.on('end', function() {
-        console.log(JSON.parse(JSON.stringify((body.toString()))));		
+		pdata = JSON.parse(JSON.stringify((body.toString())));
+        console.log(pdata);		
 		res.json({ message: 'goodbye'})
 	});	
+	if( self.m_itf == 'dom') { 		
+	    var domCtrl = require( './domController');				
+		var url = domCtrl.buildUrl( host, mail, id, res);	
+		domCtrl.updateEvent( req, url, pdata, res);		
+	} else if( self.m_itf == 'ews') {
+		// ... code for Microsoft EWS
+	} 				
 	
 	console.log( '<-- synController.updateEvent');
 }
@@ -229,11 +284,20 @@ updateEvent = function(req, res) {
 /**
 *   deleteEvent() - 	Deletes a calendar event 
 */
-deleteEvent = function(req, res) {
+deleteEvent = function(req, itf, host, mail, id, res) {
 	
 	console.log( '--> synController.deleteEvent');
-	var domCtrl = require( './domController');
-	domCtrl.deleteEvent( req, res);			
+	self = this;
+	self.m_itf = itf;
+	console.log( self.m_itf);
+	
+	if( self.m_itf == 'dom') { 		
+	    var domCtrl = require( './domController');				
+		var url = domCtrl.buildUrl( host, mail, id, res);	
+		domCtrl.deleteEvent( req, url, res);		
+	} else if( self.m_itf == 'ews') {
+		// ... code for Microsoft EWS
+	} 				
 	console.log( '<-- synController.deleteEvent');
 }
 

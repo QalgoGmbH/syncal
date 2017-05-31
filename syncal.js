@@ -38,11 +38,11 @@ router.get( '/version', function( req, res) {
 /**
 * login() - Initializes the specified interface (i.e. dom)
 *   Example:
-*   [hostname]/syncal/syn/login/?itf=dom&nm=Userame&pwd=Password
+*   URL: /syncal/syn/login?itf=DS name&host=hostname&mail=user mail(.nsf file)&usr=Userame&pwd=Password
 */
 router.get( '/syn/login', function( req, res) {	
 	var synCtrl = require( './controllers/synController');
-	synCtrl.login( req.query.itf, req.query.nm, req.query.pwd, res);
+	synCtrl.login(req.query.itf, req.query.host, req.query.mail, req.query.id, req.query.usr, req.query.pwd, res);
 	
 });
 
@@ -50,89 +50,238 @@ router.get( '/syn/login', function( req, res) {
 /**
 *   createAppointment() - Creates an appointment in the given interface
 *   Example:
-*   [hostname]/syncal/syn/createAppointment
+*   URL: /syncal/syn/createAppointment?itf=DS name&host=hostname&mail=user mail(.nsf file)
+*	Content type: application/json
+*   Body: 
+{
+  "events": [
+    {
+      "summary":"Appointment 2",
+      "location":"Location 2",
+      "start": {
+        "date":"2017-05-05",
+        "time":"15:00:00",
+        "utc":true
+      },
+      "end": {
+        "date":"2017-05-05",
+        "time":"16:00:00",
+        "utc":true
+      }
+    }
+  ]
+}
+
+*   
 */
 router.post( '/syn/createAppointment', function( req, res) {
 
 	var synCtrl = require( './controllers/synController');
-	synCtrl.createAppointment(req,res);
+	synCtrl.createAppointment(req, req.query.itf, req.query.host, req.query.mail, req.query.id, res);
 });
 
 
 /**
 *   createMeeting()	- Creates a meeting in the given interface
 *   Example:
-*   [hostname]/syncal/syn/createMeeting
+*   URL: /syncal/syn/createMeeting?itf=[DS without brackets]&host=hostname&mail=user mail(.nsf file)
+*	Content type: application/json
+*   Body: 
+{
+  "x-lotus-charset": {
+    "data": "UTF-8"
+  },
+  "events": [
+{
+      "summary": "Staff meeting-test",
+      "location": "At my desk",
+  	  "description": "its a test meeting",	
+      "start": {
+        "date": "2017-05-06",
+        "time": "10:00:00"
+        
+      },
+      "end": {
+        "date": "2017-05-06",
+        "time": "11:00:00"
+        
+      },
+      "class": "public",
+      "transparency": "opaque",
+      "sequence": 0, 	       
+   "attendees": [
+        {
+          "role": "chair",
+          "status": "needs-action",
+          "rsvp": false,
+          "displayName": "Bhargavi Chirumamilla/qalgo",
+          "email": "bhargavi.chirumamilla@qalgo.de"
+        },
+        {
+          "role": "req-participant",
+          "status": "needs-action",
+          "rsvp": true,
+          "displayName": "sirisha ramireddy/qalgo",
+          "email": "sirisha.ramireddy@qalgo.de"
+        },
+        {
+          "role": "req-participant",
+          "status": "needs-action",
+          "rsvp": true,
+          "displayName": "Kiran Jayaramu/qalgo",
+          "email": "kiran.jayaramu@qalgo.de"
+        }
+      ],
+      "organizer": {
+         "displayName": "Bhargavi Chirumamilla/qalgo",
+          "email": "bhargavi.chirumamilla@qalgo.de"
+      },
+      "x-lotus-broadcast": {
+        "data": "FALSE"
+      },
+      "x-lotus-notesversion": {
+        "data": "2"
+      },
+      "x-lotus-appttype": {
+        "data": "3"        
+    }
+  }
+  ]
+}
+
 */
 router.post( '/syn/createMeeting', function( req, res) {		
 	var synCtrl = require( './controllers/synController');
-	synCtrl.createMeeting(req,res);
+	synCtrl.createMeeting(req, req.query.itf, req.query.host, req.query.mail, req.query.id, res);
 });
 
 
 /**
 *   createAllDayEvent() - Creates an All Day Event in the given interface
 *   Example:
-*   [hostname]/syncal/syn/createAllDayEvent
+*   URL: /syncal/syn/createAllDayEvent?itf=DS name&host=hostname&mail=user mail(.nsf file)
+*	Content type: application/json
+*   Body: 
+{       
+  "events": [
+    {
+      "summary":"All day in client meetings",
+      "location":"Client location",
+      "start": {
+        "date":"2017-05-09"        
+      },
+      "end": {
+        "date":"2017-05-09"
+      }
+    }
+  ]
+}
 */
 router.post( '/syn/createAllDayEvent', function( req, res) {		
 	var synCtrl = require( './controllers/synController');
-	synCtrl.createAllDayEvent(req,res);
+	synCtrl.createAllDayEvent(req, req.query.itf, req.query.host, req.query.mail, req.query.id, res);
 });
 
 
 /**
 * createAnniversary() -	Creates an Anniversary event in the given interface
 *   Example:
-*   [hostname]/syncal/syn/createAnniversary
+*   URL: /syncal/syn/createAnniversary?itf=DS name&host=hostname&mail=user mail(.nsf file)
+*	Content type: application/json
+*   Body: 
+{        
+  "events": [
+    {
+      "summary":"Bhargavi's Birthday",
+      "location":"Karlsruhe",
+      "description": "Happy Birthday Baru",
+      "start": {
+        "date":"2017-07-13"      
+      }      
+    }
+  ]
+}
 */
 router.post( '/syn/createAnniversary', function( req, res) {		
 	var synCtrl = require( './controllers/synController');
-	synCtrl.createAnniversary(req,res);
+	synCtrl.createAnniversary(req, req.query.itf, req.query.host, req.query.mail, req.query.id, res);
 });
 
 
 /**
 * createReminder() - Creates a Reminder in the given interface
 *   Example:
-*   [hostname]/syncal/syn/createReminder
+*   URL: /syncal/syn/createReminder?itf=DS name&host=hostname&mail=user mail(.nsf file)
+*	Content type: application/json
+*   Body: 
+{        
+  "events": [
+    {
+      "summary":"Make a call to souji",
+      "location":"India",
+      "description": "Its an important call",
+      "start": {
+        "date":"2017-05-07",  
+        "time": "12:00:00"
+      }      
+    }
+  ]
+}
 */
 router.post( '/syn/createReminder', function( req, res) {		
 	var synCtrl = require( './controllers/synController');
-	synCtrl.createReminder(req,res);
+	synCtrl.createReminder(req, req.query.itf, req.query.host, req.query.mail, req.query.id, res);
 });
 
 
 /**
 * getEvents() - Reads events from the calendar
 *   Example:
-*   [hostname]/syncal/syn/getEvents
+*   URL: /syncal/syn/getEvents?itf=DS name&host=hostname&mail=user mail(.nsf file)
 */
 router.get( '/syn/getEvents', function( req, res) {		
 	var synCtrl = require( './controllers/synController');
-	synCtrl.getEvents(req,res);
+	synCtrl.getEvents(req, req.query.itf, req.query.host, req.query.mail, req.query.id, res);
 });
 
 
 /**
 * updateEvent() -	Updates a calendar event 
 *   Example:
-*   [hostname]/syncal/syn/updateEvent
+*   URL: /syncal/syn/updateEvent?itf=DS name&host=hostname&mail=user mail(.nsf file)&id=uniqueID of the event
+*   Body: 
+{       
+  "events": [
+    {
+      "href":"/mail/bchiruma.nsf/api/calendar/events/36F8CEE87E76F1FEC125812F0054B712-Lotus_Auto_Generated",
+      "id":"36F8CEE87E76F1FEC125812F0054B712-Lotus_Auto_Generated",
+
+      "summary":"All day in client meetings",
+      "location":"Client location",
+      "start": {
+        "date":"2017-06-09"        
+      },
+      "end": {
+        "date":"2017-06-09"
+      }
+    }
+  ]
+}
 */
 router.put( '/syn/updateEvent', function( req, res) {		
 	var synCtrl = require( './controllers/synController');
-	synCtrl.updateEvent(req,res);
+	synCtrl.updateEvent(req, req.query.itf, req.query.host, req.query.mail, req.query.id, res);
 });
 
 
 /**
 * deleteEvent()	- Deletes a calendar event 
 *   Example:
-*   [hostname]/syncal/syn/deleteEvent
+*   URL: /syncal/syn/deleteEvent?itf=DS name&host=hostname&mail=user mail(.nsf file)&id=uniqueID of the event
 */
 router.delete( '/syn/deleteEvent', function( req, res) {		
 	var synCtrl = require( './controllers/synController');
-	synCtrl.deleteEvent(req,res);
+	synCtrl.deleteEvent(req, req.query.itf, req.query.host, req.query.mail, req.query.id, res);
 });
 
 
