@@ -14,7 +14,7 @@ var http = require('http');
 var setcookie = '';
 var token = '';
 var sessId = '';
-var bdata = '';
+var pdata = '';
 
 /**
 *   buildUrl() - builds the url to communicate with the Domino System
@@ -30,7 +30,7 @@ buildUrl = function(host, mail, id, res) {
 	}
 	else
 	{
-	url = "http://" + host + "/mail/" + mail + "/api/calendar/events/" + id + "-Lotus_Auto_Generated";	
+	url = "http://" + host + "/mail/" + mail + "/api/calendar/events/" + id;	
 	}
 	console.log( 'The URL is: ' + url);
 	return url;
@@ -72,7 +72,8 @@ login = function(url, usr, pwd, res) {
 				}
 				//console.log('body : ', body);
 				console.log('login is successfull');
-				res.send(body);	 
+				//res.send(body);	
+				res.json({ message: 'login success'})
 			});
 	console.log( '<-- domController.login');
 }
@@ -82,16 +83,28 @@ login = function(url, usr, pwd, res) {
 * createEvents() - creates an Anniversary event in the given interface
 * @Variable pdata - Contains the json data for creating an event(E.g. Meeting, Appointment, Reminder etc.)
 */
-createEvent = function(req, url, pdata, res) {
+createEvent = function(req, url, res) {
+	try {
 	console.log( '--> domController.createEvent'); 
-	console.log( '--> pdata ' + pdata);				
+	var body = "";		
+	req.on('data', function (data) {
+        body += data;
+	});
+	
+	req.on('end', function() {
+		pdata = JSON.parse(JSON.stringify((body.toString())));
+        console.log('-->json @ domController' + pdata + '<--json @ domController');	
+		console.log( 'Cookie from synapcus:'+ req.headers.cookie);
+		//res.json({ message: 'goodbye'})	
 	var postConfig = { 
 		url: url, 
 		method: "POST", 
 		rejectUnauthorized: false,        	
 		headers: { 
 			"Content-type": "application/json",
-			"Cookie": sessId					
+			"Cookie": req.headers.cookie	
+			//"Content-type": "application/x-www-form-urlencoded",			
+			//"Cookie": sessId					
 		},      
 		body: pdata	
 	}; 
@@ -99,8 +112,24 @@ createEvent = function(req, url, pdata, res) {
 		console.log( 'error' + err);
 		console.log( 'httpResponse' + httpResponse);
 		console.log( 'body' + body); 
-	})	
+		var mtid = '';
+		try {
+		var bd = JSON.parse( body);
+		console.log( 'body' + bd.events[0].id);
+		mtid = bd.events[0].id;
+		} catch( e) {
+			console.log( e);
+		}
+		//res.status(200).end();
+		res.json({sac_syncal_objid: mtid, sac_syncal_itf: 'dom'})		
+		
+	})
+	
+	});
 	console.log( '<-- domController.createEvent');
+	} catch( e) {
+			console.log( e);
+		}
 }
 
 
@@ -124,25 +153,39 @@ getEvents = function( req, url, res) {
 /**
 *   updateEvent() - Updates a specified event from the calendar
 */
-updateEvent = function( req, url, pdata, res) {	
+updateEvent = function( req, url, res) {	
 	console.log( '--> domController.updateEvent');	
-console.log( '--> pdata ' + pdata);				
-	var postConfig = { 
+	var body = "";		
+	req.on('data', function (data) {
+        body += data;
+	});
+	
+	req.on('end', function() {
+		pdata = JSON.parse(JSON.stringify((body.toString())));
+        console.log('-->json @ domController' + pdata + '<--json @ domController');	
+		console.log( 'Cookie from synapcus:'+ req.headers.cookie);
+		//res.json({ message: 'goodbye'})
+		var postConfig = { 
 		url: url, 
 		method: "PUT", 
 		rejectUnauthorized: false,        	
 		headers: { 
 			"Content-type": "application/json",
-			"Cookie": sessId					
+			"Cookie": req.headers.cookie					
 		},      
 		body: pdata	
 	}; 
 	request(postConfig, function(err, httpResponse, body) { 
 		console.log( 'error' + err);
 		console.log( 'httpResponse' + httpResponse);
-		console.log( 'body' + body); 
-	})	
-	console.log( '<-- domController.updateEvent');
+		console.log( 'body' + body); 		
+	})
+		
+					
+	});
+	
+		
+	console.log( '<-- domController.updateEvent');	
 }
 
 

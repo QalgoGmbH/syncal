@@ -54,23 +54,11 @@ createAppointment = function(req, itf, host, mail, id, res) {
 		
 	console.log( '--> synController.createAppointment' + itf);
 	self = this;
-	self.m_itf = itf;
-
-	var body = "";
-	req.on('data', function (data) {
-		body += data;
-	});
-	
-	req.on('end', function() {
-		pdata=JSON.parse(JSON.stringify((body.toString())));
-		//console.log(pdata);		
-		res.json({ message: 'goodbye'})
-	});	
-	
+	self.m_itf = itf;	
 	if( self.m_itf == 'dom') { 		
 	    var domCtrl = require( './domController');				
 		var url = domCtrl.buildUrl( host, mail, id, res);	
-		domCtrl.createEvent( req, url, pdata, res);		
+		domCtrl.createEvent( req, url, res);			
 	} else if( self.m_itf == 'ews') {
 		// ... code for Microsoft EWS
 	}
@@ -204,19 +192,21 @@ createReminder = function(req, itf, host, mail, id, res) {
 	self = this;
 	self.m_itf = itf;
 	var body = "";
+	self.jsn = "";
 	req.on('data', function (data) {
         body += data;
 	});
 	
 	req.on('end', function() {
-        pdata = JSON.parse(JSON.stringify((body.toString())))
+        jsn = JSON.parse(JSON.stringify((body.toString())))
         //console.log(pdata);		
-		res.json({ message: 'goodbye'})
+		//res.json({ message: 'goodbye'})
+		
 	});	
 	if( self.m_itf == 'dom') { 		
 	    var domCtrl = require( './domController');				
 		var url = domCtrl.buildUrl( host, mail, id, res);	
-		domCtrl.createEvent( req, url, pdata, res);		
+		domCtrl.createEvent( req, url, jsn, res);		
 	} else if( self.m_itf == 'ews') {
 		// ... code for Microsoft EWS
 	}
@@ -256,26 +246,14 @@ updateEvent = function(req, itf, host, mail, id, res) {
 	
 	self = this;
 	self.m_itf = itf;
-	console.log( self.m_itf);
-	
-	
-	var body = "";
-	req.on('data', function (data) {
-        body += data;
-	});
-	
-	req.on('end', function() {
-		pdata = JSON.parse(JSON.stringify((body.toString())));
-        console.log(pdata);		
-		res.json({ message: 'goodbye'})
-	});	
+	console.log( self.m_itf);	
 	if( self.m_itf == 'dom') { 		
 	    var domCtrl = require( './domController');				
-		var url = domCtrl.buildUrl( host, mail, id, res);	
-		domCtrl.updateEvent( req, url, pdata, res);		
+		var url = domCtrl.buildUrl( host, mail, id, res);			
+		domCtrl.updateEvent( req, url, res);		
 	} else if( self.m_itf == 'ews') {
 		// ... code for Microsoft EWS
-	} 				
+	} 	
 	
 	console.log( '<-- synController.updateEvent');
 }
