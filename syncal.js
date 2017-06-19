@@ -77,7 +77,7 @@ router.get( '/syn/login', function( req, res) {
 router.post( '/syn/createAppointment', function( req, res) {
 
 	var synCtrl = require( './controllers/synController');
-	synCtrl.createAppointment(req, req.query.itf, req.query.host, req.query.mail, req.query.id, res);
+	synCtrl.createAppointment(req, res);
 });
 
 
@@ -241,7 +241,7 @@ router.post( '/syn/createReminder', function( req, res) {
 */
 router.get( '/syn/getEvents', function( req, res) {		
 	var synCtrl = require( './controllers/synController');
-	synCtrl.getEvents(req, req.query.itf, req.query.host, req.query.mail, req.query.id, res);
+	synCtrl.getEvents(req, res);
 });
 
 
@@ -270,7 +270,14 @@ router.get( '/syn/getEvents', function( req, res) {
 */
 router.put( '/syn/updateEvent', function( req, res) {		
 	var synCtrl = require( './controllers/synController');
-	synCtrl.updateEvent(req, req.query.itf, req.query.host, req.query.mail, req.query.id, res);
+	synCtrl.updateEvent(req);		
+	var oRet = {};
+	oRet.operation = 'update';
+	oRet.status = 'success';
+	var json = JSON.stringify( oRet);
+	console.log( 'status: ' + json);
+	res.send( json);
+	
 });
 
 
@@ -281,9 +288,14 @@ router.put( '/syn/updateEvent', function( req, res) {
 */
 router.delete( '/syn/deleteEvent', function( req, res) {		
 	var synCtrl = require( './controllers/synController');
-	synCtrl.deleteEvent(req, req.query.itf, req.query.host, req.query.mail, req.query.id, res);
+	synCtrl.deleteEvent(req);
+	var oRet = {};
+	oRet.operation = 'delete';
+	oRet.status = 'success';
+	var json = JSON.stringify( oRet);
+	console.log( 'status: ' + json);
+	res.send( json);
 });
-
 
 app.use( '/syncal', router);
 
