@@ -96,8 +96,7 @@ createMeeting = function(req, itf, host, mail, id, res) {
 	});
 	
 	req.on('end', function() {
-		pdata = JSON.parse(JSON.stringify((body.toString())))
-        //console.log(pdata);		
+		pdata = JSON.parse(JSON.stringify((body.toString())))        		
 		res.json({ message: 'goodbye'})
 	});	
 	if( self.m_itf == 'dom') { 		
@@ -131,8 +130,7 @@ createAllDayEvent = function(req, itf, host, mail, id, res) {
 	});
 	
 	req.on('end', function() {
-        pdata = JSON.parse(JSON.stringify((body.toString())))
-        //console.log(pdata);		
+        pdata = JSON.parse(JSON.stringify((body.toString())))        		
 		res.json({ message: 'goodbye'})
 	});	
 	if( self.m_itf == 'dom') { 		

@@ -32,8 +32,7 @@ buildUrl = function(host, mail, id) {
 	else
 	{
 	url = "http://" + host + "/mail/" + mail + "/api/calendar/events/" + id;	
-	}
-	console.log( 'The id is: ' + id);
+	}	
 	console.log( 'The URL is: ' + url);
 	return url;
 	
@@ -75,10 +74,9 @@ login = function(url, usr, pwd, res) {
 						}
 					);
 				}
-				console.log('body : ', body);
-				console.log('login is successfull');
-				res.send(body);	
-				//res.json({ message: 'login success'})
+				//console.log('body : ', body);
+				console.log('login is successfull');				
+				res.status(200).send(body);
 			});
 			
 	console.log( '<-- domController.login');
@@ -145,19 +143,18 @@ createEvent = function(req, url, res) {
 getEvents = function( req, url, res) {	
 
 	console.log( '--> domController.get');	
-	
+	var urlget = url + '&since=2017-06-10T00:00:00Z';
+	console.log('urlget:' + urlget);
 	request.get( {
-		url : url,
+		url : urlget,
 		headers: { 		
 			"Cookie": req.headers.cookie
 			//"Cookie": sessId				
 		},
 	}, function(error, response, body) {      
 			res.send(body); 
-			console.log('body' , body);
-			//console.log('response:' , response);
-			console.log('error:' , error);
-			console.log('hiiiiiii');
+			//console.log('body' , body);			
+			console.log('error:' , error);						
 	}); 
 	
 	console.log( '<-- domController.get');
