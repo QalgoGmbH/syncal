@@ -74,7 +74,7 @@ login = function(url, usr, pwd, res) {
 						}
 					);
 				}
-				//console.log('body : ', body);
+				console.log('body : ', body);
 				console.log('login is successfull');				
 				res.status(200).send(body);
 			});
@@ -143,7 +143,10 @@ createEvent = function(req, url, res) {
 getEvents = function( req, url, res) {	
 
 	console.log( '--> domController.get');	
-	var urlget = url + '&since=2017-06-10T00:00:00Z';
+	var urlget = url + '&since=2017-07-26T00:00:00Z';
+	//var urlget = url + '&since=' + req.query.year + '-' + req.query.month + '-01T00:00:00Z&before=' + req.query.year + '-' + req.query.month + '-31T00:00:00Z';
+//+ '&since=2017-06-30T00:00:00Z&before=2018-06-30T00:00:00Z';	
+
 	console.log('urlget:' + urlget);
 	request.get( {
 		url : urlget,
@@ -153,10 +156,10 @@ getEvents = function( req, url, res) {
 		},
 	}, function(error, response, body) {      
 			res.send(body); 
-			//console.log('body' , body);			
+			console.log('body' , body);			
 			console.log('error:' , error);						
 	}); 
-	
+	console.log('year month' + req.query.year + req.query.month);
 	console.log( '<-- domController.get');
 	
 }
