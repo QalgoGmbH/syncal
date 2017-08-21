@@ -130,7 +130,7 @@ createAllDayEvent = function(req, itf, host, mail, id, res) {
 	});
 	
 	req.on('end', function() {
-        pdata = JSON.parse(JSON.stringify((body.toString())))        		
+        pdata = JSON.parse(JSON.stringify((body.toString())))	        		
 		res.json({ message: 'goodbye'})
 	});	
 	if( self.m_itf == 'dom') { 		
@@ -243,7 +243,7 @@ getEvents = function(req, res) {
 /**
 *   updateEvent() - Updates a calendar event 
 */
-updateEvent = function(req) {
+updateEvent = function(req,res) {
 	
 	console.log( '--> synController.updateEvent');	
 	
@@ -254,7 +254,7 @@ updateEvent = function(req) {
 	if( itf == 'dom') { 		
 	    var domCtrl = require( './domController');				
 		var url = domCtrl.buildUrl( host, mail, id);			
-		domCtrl.updateEvent( req, url);	
+		domCtrl.updateEvent( req, url,res);	
 		
 	} else if( self.m_itf == 'ews') {
 		// ... code for Microsoft EWS

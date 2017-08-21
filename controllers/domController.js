@@ -119,14 +119,17 @@ createEvent = function(req, url, res) {
 		console.log( 'httpResponse' + httpResponse);
 		console.log( 'body' + body); 
 		var mtid = '';
+		var eventtype = '';
 		try {
 		var bd = JSON.parse( body);
-		console.log( 'body' + bd.events[0].id);
+		console.log( 'id' + bd.events[0].id);		
+		console.log( 'type' + bd.events[0]['x-lotus-appttype'].data);	
 		mtid = bd.events[0].id;
+		eventtype = bd.events[0]['x-lotus-appttype'].data;
 		} catch( e) {
 			console.log( e);
 		}		
-		res.json({sac_syncal_objid: mtid, sac_syncal_itf: 'dom'})				
+		res.json({sac_syncal_objid: mtid, sac_syncal_itf: 'dom', sac_syncal_eventtype: eventtype})				
 	})	
 	});	
 		} catch( e) {
@@ -143,10 +146,8 @@ createEvent = function(req, url, res) {
 getEvents = function( req, url, res) {	
 
 	console.log( '--> domController.get');	
-	var urlget = url + '&since=2017-07-26T00:00:00Z';
-	//var urlget = url + '&since=' + req.query.year + '-' + req.query.month + '-01T00:00:00Z&before=' + req.query.year + '-' + req.query.month + '-31T00:00:00Z';
-//+ '&since=2017-06-30T00:00:00Z&before=2018-06-30T00:00:00Z';	
-
+	//var urlget = url + '&since=2017-08-01T00:00:00Z&before=2017-12-31T00:00:00Z';
+	var urlget = url + '&since=' + req.query.start + 'T00:00:00Z&before=' + req.query.end + 'T00:00:00Z';
 	console.log('urlget:' + urlget);
 	request.get( {
 		url : urlget,
@@ -159,7 +160,7 @@ getEvents = function( req, url, res) {
 			console.log('body' , body);			
 			console.log('error:' , error);						
 	}); 
-	console.log('year month' + req.query.year + req.query.month);
+	console.log('start end' + req.query.start + req.query.end);
 	console.log( '<-- domController.get');
 	
 }
@@ -174,7 +175,8 @@ updateEvent = function( req, url, res) {
 	
 	var body = "";		
 	req.on('data', function (data) {        
-		body += data;		
+		body += data;	
+		//res.send(body); 
 	});	
 	req.on('end', function() {
 		pdata = JSON.parse(JSON.stringify((body.toString())));
@@ -190,11 +192,13 @@ updateEvent = function( req, url, res) {
 			"Cookie": req.headers.cookie					
 		},      
 		body: pdata	
+		
 	}; 
 	request(postConfig, function(err, httpResponse, body) { 
 		console.log( 'error' + err);
 		console.log( 'httpResponse' + httpResponse);
-		console.log( 'body' + body); 			
+		console.log( 'body' + body); 	
+		res.send(body);
 	}) 					
 	}); 		
 	

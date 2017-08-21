@@ -1,6 +1,6 @@
 /**
 * 
-* Module:		Main Program
+* Module:	Main Program
 * Name:     	Syncal main entry point (start with > "node syncal.js")
 * Description:	Main entry point for the SynCal Module
 * Author:       Adrian Engelmann | Qalgo GmbH
@@ -270,13 +270,13 @@ router.get( '/syn/getEvents', function( req, res) {
 */
 router.put( '/syn/updateEvent', function( req, res) {		
 	var synCtrl = require( './controllers/synController');
-	synCtrl.updateEvent(req);		
+	synCtrl.updateEvent(req,res);		
 	var oRet = {};
 	oRet.operation = 'update';
 	oRet.status = 'success';
 	var json = JSON.stringify( oRet);
 	console.log( 'status: ' + json);
-	res.send( json);
+	//res.send( json);
 	
 });
 
